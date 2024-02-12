@@ -9,9 +9,9 @@ const Header = () => {
         <div className='logo-container'><NavLink to='/'><Icon /></NavLink></div>
         <div className='nav-links-container'>
         <NavLink className='nav-link' to="/shop">Shop</NavLink>
-        <NavLink >Contact</NavLink>
-        <NavLink >Sign-In</NavLink>
-        <NavLink >Cart</NavLink>
+        {/* <NavLink >Contact</NavLink> */}
+        <NavLink className='nav-link' to="/auth" >Sign-In</NavLink>
+        {/* <NavLink >Cart</NavLink> */}
         </div>
         </div>
     <div>{<Outlet />}</div>

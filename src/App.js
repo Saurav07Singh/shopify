@@ -1,4 +1,4 @@
-
+import Authentication from './routes/Authentication/Authentication';
 import Header from './routes/header/Header';
 import Home from './routes/home/Home';
 import { createBrowserRouter, Route, createRoutesFromElements, RouterProvider } from 'react-router-dom';
@@ -7,6 +7,7 @@ import { createBrowserRouter, Route, createRoutesFromElements, RouterProvider } 
     <Route path="/" element={<Header />}>
       <Route index element={<Home />} />
       <Route path="shop" element={<h1>I am shop element</h1>}/>
+      <Route path="auth" element={<Authentication />}/>
     </Route>
  ))
 
