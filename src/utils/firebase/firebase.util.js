@@ -1,6 +1,14 @@
 import {initializeApp} from "firebase/app"
 
-import {getAuth,signInWithPopup,signInWithRedirect,GoogleAuthProvider,createUserWithEmailAndPassword,signInWithEmailAndPassword} from "firebase/auth"
+import {getAuth,
+  signInWithPopup,
+  signInWithRedirect,
+  GoogleAuthProvider,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged
+} from "firebase/auth"
 import {getDoc,setDoc,getFirestore,doc} from "firebase/firestore"
 
 const firebaseConfig = {
@@ -20,8 +28,6 @@ const firebaseConfig = {
   googleProvider.setCustomParameters({
     prompt:"select_account"
   })
-
-
 
   export const writeUserDataInDB= async (userAuth)=>{
     const instance= doc(db,"users",userAuth.uid)
@@ -52,6 +58,13 @@ const firebaseConfig = {
  export const createAuthUserWithEmailandPassword= async (email,password)=>{
   return await  createUserWithEmailAndPassword(auth,email,password)
  }
-export const signInAuthWithEmailAndPassword = async(email,password)=>{
+ export const signInAuthWithEmailAndPassword = async(email,password)=>{
   return await signInWithEmailAndPassword(auth,email,password)
 }
+
+  export const userSignOut = async ()=>{
+  await signOut(auth)
+}
+
+export const onAuthStateChangedLinstener= (callback)=> onAuthStateChanged(auth,callback)
+

@@ -1,5 +1,6 @@
-import React,{useState} from 'react'
+import React,{useState,useContext} from 'react'
 import { createAuthUserWithEmailandPassword,writeUserDataInDB } from '../../utils/firebase/firebase.util'
+import { UserContext } from '../../context/User/UserContext'
 import FormInput from '../Form-Input/FormInput'
 import "./Sign-up-container.scss"
 import Button from '../Button/Button'
@@ -11,7 +12,7 @@ const SignUp = () => {
         cpassword:""
     })
     const {username,email,password,cpassword} = userState
-
+    const {setUser} = useContext(UserContext)
 
     function handleChange(e){
         const {name,value}=e.target
@@ -28,6 +29,7 @@ const SignUp = () => {
         }
         try{
             const {user}= await createAuthUserWithEmailandPassword(email,password)
+            setUser(user)
             const res= await writeUserDataInDB(user);
             console.log(res)
         }catch(err){

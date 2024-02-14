@@ -1,19 +1,25 @@
-import React,{useState} from 'react'
-import { createAuthUserWithEmailandPassword,writeUserDataInDB,signWithGooglePopup,signInAuthWithEmailAndPassword } from '../../utils/firebase/firebase.util'
+import React,{useState,useContext} from 'react'
+import { writeUserDataInDB,signWithGooglePopup,signInAuthWithEmailAndPassword } from '../../utils/firebase/firebase.util'
+import { UserContext } from '../../context/User/UserContext'
 import FormInput from '../Form-Input/FormInput'
 import Button from '../Button/Button'
 import "./Sign-in-container.scss"
 const SignIn = () => {
-    const [userState,setUserState] = useState({
+    const initalState={
         email:"",
         password:"",
-    })
+    }
+    const [userState,setUserState] = useState(initalState)
     const {email,password} = userState
+    const {user} = useContext(UserContext)
+   
 
+    function resetInputData(){
+        setUserState(initalState)
+    }
     function handleChange(e){
         const {name,value}=e.target
         setUserState(prev=>({...prev,[name]:value}))
-
     }
    async function handleSubmit(e){
         e.preventDefault();
@@ -22,8 +28,9 @@ const SignIn = () => {
             return;
             }
         try{
-            const resp= await signInAuthWithEmailAndPassword(email,password)
-            console.log(resp)
+            const resp= await signInAuthWithEmailAndPassword(email,password);
+            resetInputData();
+           // console.log(resp)
         }
         catch(err){
             switch(err.code){
@@ -38,8 +45,7 @@ const SignIn = () => {
 
     async function handleGoogleClick(){
         console.log("hello")
-        const {user}= await signWithGooglePopup()
-        const docRef=writeUserDataInDB(user)
+        await signWithGooglePopup()
        }
   return (
     <div className='sign-up-container'>
@@ -54,7 +60,7 @@ const SignIn = () => {
 
            <div className='button-container'> 
             <Button type="submit" onClick={handleChange}>Submit</Button>
-            <Button btnType="google" onClick={handleGoogleClick}>Sign In with Google!</Button>
+            <Button type="button" btnType="google" onClick={handleGoogleClick}>Sign In with Google!</Button>
             </div>
         
         </form>
